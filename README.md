@@ -27,29 +27,29 @@ Manually investigating suspicious emails can involve checking:
 This project brings several of these investigation steps together into a single workflow.
 
 ```text
-              Suspicious Email
-                     │
-                     ▼
-             Email Parsing
-                     │
-          ┌──────────┴──────────┐
-          ▼                     ▼
-    Header Analysis        IOC Extraction
-          │                     │
-          │              ┌──────┴──────┐
-          │              ▼             ▼
-          │           URLs          Domains/IPs
-          │              │
-          │              ▼
-          │         URL Analysis
-          │              │
-          └──────┬───────┘
-                 ▼
-        Threat Intelligence
-           (VirusTotal)
-                 │
-                 ▼
-           Risk Assessment
-                 │
-                 ▼
-         Investigation Report
+                                  .EML FILE
+                        │
+                        ▼
+                 Email Parser
+                        │
+        ┌───────────────┼────────────────┐
+        ▼               ▼                ▼
+     Headers           Body          Attachments
+        │               │                │
+        │               ▼                ▼
+        │             URLs          SHA-256 Hash
+        │               │                │
+        │               ▼                ▼
+        │          VirusTotal      Extension Check
+        │                                │
+        │                         Double Extension
+        │                                │
+        └───────────────┬────────────────┘
+                        ▼
+               SPF / DKIM / DMARC
+                        │
+                        ▼
+                 Risk Engine
+                        │
+                        ▼
+             Risk Score + Findings
