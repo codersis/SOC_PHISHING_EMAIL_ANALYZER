@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SOC Phishing Email Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>SOC Phishing Email Analyzer</h1>
+
+            <p>
+                Analyze suspicious email files using
+                SOC-focused security checks.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>Upload Email for Analysis</h2>
+
+            <p class="description">
+
+                Upload an <strong>.eml</strong> file to analyze
+                email headers, URLs, authentication results,
+                attachments and threat intelligence.
+
+            </p>
+
+
+            {% if error %}
+
+            <div class="error">
+
+                {{ error }}
+
+            </div>
+
+            {% endif %}
+
+
+            <form action="/analyze"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+                <div class="file-area">
+
+                    <label for="email_file">
+
+                        Select phishing email
+
+                    </label>
+
+                    <input
+                        type="file"
+                        id="email_file"
+                        name="email_file"
+                        accept=".eml"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit">
+
+                    Analyze Email
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="info-grid">
+
+            <div class="info-card">
+
+                <h3>📧 Email Analysis</h3>
+
+                <p>
+                    Parses headers, sender information,
+                    Reply-To and email body.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <h3>🔗 IOC Extraction</h3>
+
+                <p>
+                    Extracts URLs, domains and IP addresses
+                    for investigation.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <h3>🛡️ Threat Intelligence</h3>
+
+                <p>
+                    Checks extracted indicators against
+                    VirusTotal reputation data.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <h3>📊 Risk Assessment</h3>
+
+                <p>
+                    Generates an explainable risk score
+                    and SOC investigation findings.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="warning">
+
+            <strong>⚠️ Safety Notice</strong>
+
+            <p>
+                This tool analyzes email files statically.
+                Do not open suspicious attachments or
+                manually visit suspicious URLs.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

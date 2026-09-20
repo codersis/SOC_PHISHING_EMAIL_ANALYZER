@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Phishing Investigation Report</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ==================================================
+         HEADER
+    =================================================== -->
+
+        <div class="header">
+
+            <h1>Phishing Investigation Report</h1>
+
+            <p>
+                SOC-focused email security analysis
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+         RISK SUMMARY
+    =================================================== -->
+
+        <div class="risk-card">
+
+            <h2>Risk Assessment</h2>
+
+            <div class="risk-score">
+
+                {{ report.risk_assessment.score }}/100
+
+            </div>
+
+            <div class="risk-verdict">
+
+                {{ report.risk_assessment.verdict }}
+
+            </div>
+
+            <p>
+
+                Priority:
+                <strong>
+                    {{ report.risk_assessment.priority }}
+                </strong>
+
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+         EMAIL INFORMATION
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>Email Information</h2>
+
+            <table>
+
+                <tr>
+
+                    <th>Subject</th>
+
+                    <td>
+                        {{ report.email_summary.subject }}
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Sender</th>
+
+                    <td>
+                        {{ report.email_summary.sender }}
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Reply-To</th>
+
+                    <td>
+                        {{ report.email_summary.reply_to }}
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <!-- ==================================================
+         AUTHENTICATION
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>Email Authentication</h2>
+
+            <table>
+
+                <tr>
+
+                    <th>SPF</th>
+
+                    <td>
+                        {{ report.authentication.spf }}
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>DKIM</th>
+
+                    <td>
+                        {{ report.authentication.dkim }}
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>DMARC</th>
+
+                    <td>
+                        {{ report.authentication.dmarc }}
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <!-- ==================================================
+         IOC SUMMARY
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>Indicators of Compromise</h2>
+
+
+            <h3>URLs</h3>
+
+            {% if report.ioc_summary.urls %}
+
+            <ul>
+
+                {% for url in report.ioc_summary.urls %}
+
+                <li>
+                    <code>{{ url }}</code>
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+            {% else %}
+
+            <p>No URLs detected.</p>
+
+            {% endif %}
+
+
+            <h3>Domains</h3>
+
+            {% if report.ioc_summary.domains %}
+
+            <ul>
+
+                {% for domain in report.ioc_summary.domains %}
+
+                <li>
+                    <code>{{ domain }}</code>
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+            {% else %}
+
+            <p>No domains detected.</p>
+
+            {% endif %}
+
+
+            <h3>IP Addresses</h3>
+
+            {% if report.ioc_summary.ip_addresses %}
+
+            <ul>
+
+                {% for ip in report.ioc_summary.ip_addresses %}
+
+                <li>
+                    <code>{{ ip }}</code>
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+            {% else %}
+
+            <p>No IP addresses detected.</p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+         URL ANALYSIS
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>URL Analysis</h2>
+
+            {% if report.url_analysis %}
+
+            {% for item in report.url_analysis %}
+
+            <div class="analysis-item">
+
+                <p>
+
+                    <strong>URL:</strong>
+
+                    <code>
+                            {{ item.url }}
+                        </code>
+
+                </p>
+
+                <p>
+
+                    <strong>Risk Score:</strong>
+
+                    {{ item.score }}
+
+                </p>
+
+
+                {% if item.findings %}
+
+                <strong>Findings:</strong>
+
+                <ul>
+
+                    {% for finding in item.findings %}
+
+                    <li>
+                        {{ finding }}
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+                {% else %}
+
+                <p>
+                    No suspicious URL indicators detected.
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <p>No URLs required analysis.</p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+         ATTACHMENTS
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>Attachment Analysis</h2>
+
+            {% if report.attachment_analysis %}
+
+            {% for attachment in report.attachment_analysis %}
+
+            <div class="analysis-item">
+
+                <p>
+
+                    <strong>Filename:</strong>
+
+                    {{ attachment.filename }}
+
+                </p>
+
+                <p>
+
+                    <strong>SHA-256:</strong>
+
+                    <code>
+                            {{ attachment.sha256 }}
+                        </code>
+
+                </p>
+
+                <p>
+
+                    <strong>Risk:</strong>
+
+                    {{ attachment.risk }}
+
+                </p>
+
+                {% if attachment.reason %}
+
+                <p>
+
+                    <strong>Reason:</strong>
+
+                    {{ attachment.reason }}
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <p>No attachments detected.</p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+         VIRUSTOTAL
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>Threat Intelligence</h2>
+
+            {% if report.virustotal_results %}
+
+            {% for result in report.virustotal_results %}
+
+            <div class="analysis-item">
+
+                <p>
+
+                    <strong>Indicator:</strong>
+
+                    <code>
+                            {{ result.indicator }}
+                        </code>
+
+                </p>
+
+                <p>
+
+                    <strong>Type:</strong>
+
+                    {{ result.type }}
+
+                </p>
+
+                <p>
+
+                    <strong>Status:</strong>
+
+                    {{ result.status }}
+
+                </p>
+
+                <p>
+
+                    <strong>Verdict:</strong>
+
+                    {{ result.verdict }}
+
+                </p>
+
+
+                {% if result.stats %}
+
+                <p>
+
+                    <strong>Malicious:</strong>
+                    {{ result.stats.malicious }}
+
+                    &nbsp; | &nbsp;
+
+                    <strong>Suspicious:</strong>
+                    {{ result.stats.suspicious }}
+
+                    &nbsp; | &nbsp;
+
+                    <strong>Undetected:</strong>
+                    {{ result.stats.undetected }}
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <p>
+                No VirusTotal results available.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+         FINDINGS
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>SOC Findings</h2>
+
+            {% if report.findings %}
+
+            <ul class="findings-list">
+
+                {% for finding in report.findings %}
+
+                <li>
+                    {{ finding }}
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+            {% else %}
+
+            <p>
+                No significant findings were identified.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+         RISK BREAKDOWN
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>Risk Score Breakdown</h2>
+
+            {% if report.risk_breakdown %}
+
+            <table>
+
+                <tr>
+
+                    <th>Indicator</th>
+
+                    <th>Points</th>
+
+                </tr>
+
+                {% for item in report.risk_breakdown %}
+
+                <tr>
+
+                    <td>
+                        {{ item.indicator }}
+                    </td>
+
+                    <td>
+                        +{{ item.points }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+            {% else %}
+
+            <p>
+                No risk indicators contributed to the score.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+         RECOMMENDED ACTIONS
+    =================================================== -->
+
+        <div class="card">
+
+            <h2>Recommended SOC Actions</h2>
+
+            {% if report.recommended_actions %}
+
+            <ol>
+
+                {% for action in report.recommended_actions %}
+
+                <li>
+                    {{ action }}
+                </li>
+
+                {% endfor %}
+
+            </ol>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+         CONCLUSION
+    =================================================== -->
+
+        <div class="card conclusion">
+
+            <h2>Analyst Conclusion</h2>
+
+            <p>
+                {{ report.conclusion }}
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+         REPORT METADATA
+    =================================================== -->
+
+        <div class="metadata">
+
+            <p>
+
+                Generated:
+                {{ report.report_metadata.generated_at }}
+
+            </p>
+
+            <p>
+
+                Analysis Engine:
+                {{ report.report_metadata.analysis_engine }}
+
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+         BACK BUTTON
+    =================================================== -->
+
+        <div class="back-button">
+
+            <a href="/">
+                ← Analyze Another Email
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
