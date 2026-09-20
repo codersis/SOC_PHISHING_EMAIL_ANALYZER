@@ -27,7 +27,7 @@ Manually investigating suspicious emails can involve checking:
 This project brings several of these investigation steps together into a single workflow.
 
 ```text
-                                  .EML FILE
+                    .EML FILE
                         │
                         ▼
                  Email Parser
