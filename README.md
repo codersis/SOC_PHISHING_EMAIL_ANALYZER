@@ -59,9 +59,9 @@ This project brings several of these investigation steps together into a single 
 ```text
 ```
 
-# 🔍 Key Features
+## 🔍 Key Features
 
-## 📧 1. Email Parsing & Header Analysis
+### 📧 1. Email Parsing & Header Analysis
 
 The application accepts `.eml` email files and extracts relevant information for investigation.
 
@@ -82,7 +82,7 @@ This provides the initial evidence required for further investigation.
 
 ---
 
-## 🔐 2. SPF / DKIM / DMARC Analysis
+### 🔐 2. SPF / DKIM / DMARC Analysis
 
 The project analyzes email authentication results including:
 
@@ -116,7 +116,7 @@ The authentication results are therefore considered together with other investig
 
 ---
 
-## 👤 3. Sender & Reply-To Analysis
+### 👤 3. Sender & Reply-To Analysis
 
 The application examines sender-related information and can identify inconsistencies between email addresses.
 
@@ -144,7 +144,7 @@ These fields provide useful context for email-header investigation.
 
 ---
 
-## 🔗 4. IOC Extraction
+### 🔗 4. IOC Extraction
 
 The project extracts potentially relevant **Indicators of Compromise (IOCs)** from the email.
 
@@ -169,7 +169,7 @@ Email Body
 
 ---
 
-## 🌐 5. URL Analysis
+### 🌐 5. URL Analysis
 
 URLs found inside the email are extracted and analyzed.
 
@@ -197,7 +197,7 @@ URL analysis can provide additional evidence when determining the risk associate
 
 ---
 
-## 🌍 6. Domain & IP Investigation
+### 🌍 6. Domain & IP Investigation
 
 Domains and IP addresses extracted from emails can also be investigated through threat-intelligence lookups.
 
@@ -220,7 +220,7 @@ Investigation Evidence
 
 ---
 
-# ⚠️ Limitations
+## ⚠️ Limitations
 
 The current version is a **rule-based phishing email investigation and triage tool**.
 
