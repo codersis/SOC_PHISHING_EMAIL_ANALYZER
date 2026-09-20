@@ -1,4 +1,4 @@
-# PhishLens
+SOC Phishing Email Investigation
 
 ### Phishing Email Investigation & Threat Intelligence Platform
 
